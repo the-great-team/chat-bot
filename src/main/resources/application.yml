@@ -1,0 +1,38 @@
+secretKey: ${SECRET_KEY}
+accessTokenTime: 60000
+refreshTokenTime: 604800000
+
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 3000
+
+spring:
+  datasource:
+    hikari:
+      master:
+        jdbc-url: jdbc:mysql://${DB_URL}:${DB_PORT}/chatbot?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        read-only: false
+        driver-class-name: com.mysql.cj.jdbc.Driver
+
+      slave:
+        jdbc-url: jdbc:mysql://${REPLICATION_DB_URL}:${DB_PORT}/chatbot?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+        username: ${DB_USERNAME}
+        password: ${REPLICATION_DB_PASSWORD}
+        read-only: true
+        driver-class-name: com.mysql.cj.jdbc.Driver
+  session:
+    store-type: redis
+  redis:
+    flush-mode: on_save
+    namespace: spring:session
+    host: localhost
+    password:
+    port: 6379
+
+  logging:
+    level:
+      Account: warn
